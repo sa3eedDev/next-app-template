@@ -1,12 +1,13 @@
 'use client';
 
-import {IconCoffee } from '@tabler/icons-react'
+import {IconCoffee , IconLibraryPlus } from '@tabler/icons-react'
 import '@mantine/core/styles.css';
 import React from 'react';
-import { MantineProvider, ColorSchemeScript } from '@mantine/core';
+import { MantineProvider, ColorSchemeScript, UnstyledButton, NavLink } from '@mantine/core';
 import { theme } from '../theme';
 import { AppShell, Burger,Group } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import Link from 'next/link';
 
 
 export default function RootLayout({ children }: { children: any }) {
@@ -29,7 +30,7 @@ export default function RootLayout({ children }: { children: any }) {
       navbar={{
         width: 300,
         breakpoint: 'sm',
-        collapsed: { mobile: !opened },
+        collapsed: { desktop: true, mobile: !opened },
       }}
       padding="md"
     >
@@ -41,12 +42,27 @@ export default function RootLayout({ children }: { children: any }) {
             hiddenFrom="sm"
             size="sm"
           />
-          <IconCoffee size={30}/>
-          <strong>Caffeine Addict</strong>
+          <Group justify="space-between" style={{ flex: 2 }}>
+            <Group>
+              <IconCoffee size={30}/>
+              <Link href={"/"}><strong>Caffeine Addict</strong></Link>
+            </Group>
+            <Group>
+            <UnstyledButton component='a' href="/addRecipe"><IconLibraryPlus/></UnstyledButton>
+            </Group>
+          </Group>
         </Group>
       </AppShell.Header>
 
-      <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
+      <AppShell.Navbar py="md">          
+        <Group>
+        <NavLink
+              href="#required-for-focus"
+              label="Add Recipe"
+              leftSection={<IconLibraryPlus size="1rem" stroke={1.5} />}
+            />
+        </Group>
+      </AppShell.Navbar>
 
       <AppShell.Main>
           {children}
