@@ -1,5 +1,5 @@
 "use client";
-import { NumberInput, Grid, Title, Space, Stepper } from "@mantine/core";
+import { NumberInput, Grid, Title, Space, Stepper, Group, Button } from "@mantine/core";
 import { useInputState } from '@mantine/hooks';
 import { useState } from "react";
 
@@ -9,8 +9,10 @@ export function AmountCal({waterAmount, coffeeAmount, measurement}){
 
     const [coffeeValue, setcoffeeValue] = useInputState<string | number>(coffeeAmount);
     const [waterValue, setwaterValue] = useInputState<string | number>(waterAmount);
-    const [active, setActive] = useState(-1);
 
+    const [active, setActive] = useState(-1);
+    const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
+    const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
     const coffeeChange = ((coffee) =>{
         const ratio = waterAmount / coffeeAmount
@@ -54,11 +56,15 @@ export function AmountCal({waterAmount, coffeeAmount, measurement}){
 
             <Stepper active={active} onStepClick={setActive} orientation="vertical">
                 <Stepper.Step label="Rinse the filter" description="Use hot water to rinse the coffee filter" />
-                <Stepper.Step label="Bloom the coffee" description="Use 5th of the hot water to bloom the coffee for 45 seconds" loading/>
+                <Stepper.Step label="Bloom the coffee" description="Use 5th of the hot water to bloom the coffee for 45 seconds"/>
                 <Stepper.Step label="Add water" description="Add water after 15 seconds bloom" />
                 <Stepper.Step label="Add rest of the water" description="Every 20 seconds add 1/5 of the water" />
 
             </Stepper>
+            <Group justify="center" mt="xl">
+                <Button variant="default" onClick={prevStep}>Back</Button>
+                <Button onClick={nextStep}>Next step</Button>
+            </Group>
             </Grid.Col>
         </Grid>
         </>

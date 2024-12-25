@@ -3,7 +3,7 @@
 import {IconCoffee , IconLibraryPlus } from '@tabler/icons-react'
 import '@mantine/core/styles.css';
 import React from 'react';
-import { MantineProvider, ColorSchemeScript, UnstyledButton, NavLink } from '@mantine/core';
+import { MantineProvider, ColorSchemeScript, UnstyledButton, NavLink, ActionIcon } from '@mantine/core';
 import { theme } from '../theme';
 import { AppShell, Burger,Group } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -48,7 +48,16 @@ export default function RootLayout({ children }: { children: any }) {
               <Link href={"/"}><strong>Caffeine Addict</strong></Link>
             </Group>
             <Group>
-            <UnstyledButton component='a' href="/addRecipe"><IconLibraryPlus/></UnstyledButton>
+            <ActionIcon
+              component='a'
+              href="/addRecipe"
+              variant="gradient"
+              size="lg"
+              aria-label="Gradient action icon"
+              gradient={{ from: 'blue', to: 'cyan', deg: 261 }}
+            >
+              <IconLibraryPlus/>
+            </ActionIcon>
             </Group>
           </Group>
         </Group>
