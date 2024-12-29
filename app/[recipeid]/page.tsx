@@ -10,19 +10,23 @@ interface Recipe{
     id: number
     title: string
     Pic: string
-    decs: string
+    description: string
     coffeeAmount: number
     waterAmount: number
     measurement: string
+    steps: step[]
+}
+
+interface step{
+    title: string
+    step: string
 }
 
 export default async function Page({params}: Props) {
     // const params = use(props.params);
     const { recipeid } = await params;
-    const data : Recipe[] = await fetch("http://localhost:3000/api/data").then((res) => res.json())
+    const recipe : Recipe = await fetch(`http://localhost:3000/api/${recipeid}`).then((res) => res.json())
 
-    const recpie : Recipe = await data.find((resc) => resc.id === parseInt(recipeid))!
-    
     return(
         <>
         <Container>
@@ -39,10 +43,10 @@ export default async function Page({params}: Props) {
                 </SimpleGrid> */}
                 </Group>
                 <Group>
-                    <Title order={1}>{recpie?.title ? recpie.title : recipeid}</Title>
-                    <Text>{recpie.decs}</Text>
+                    <Title order={1}>{recipe?.title ? recipe.title : recipeid}</Title>
+                    <Text>{recipe.description}</Text>
 
-                    <AmountCal waterAmount={recpie.waterAmount} coffeeAmount={recpie.coffeeAmount} measurement={recpie.measurement}/>
+                    <AmountCal waterAmount={recipe.waterAmount} coffeeAmount={recipe.coffeeAmount} measurement={recipe.measurement} steps={recipe.steps}/>
 
 
                 </Group>

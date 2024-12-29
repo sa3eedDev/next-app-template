@@ -6,11 +6,11 @@ export function RecipeCard({info}) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
-        <Image
+        {/* <Image
           src={info.Pic}
           height={160}
           alt="Norway"
-        />
+        /> */}
       </Card.Section>
 
       <Group justify="space-between" mt="md" mb="xs">
@@ -18,7 +18,7 @@ export function RecipeCard({info}) {
       </Group>
 
       <Text size="sm" c="dimmed">
-        {info.decs}
+        {info.description}
       </Text>
 
       <Button  component="a" color="blue" fullWidth mt="md" radius="md" href={linkRecipe}>

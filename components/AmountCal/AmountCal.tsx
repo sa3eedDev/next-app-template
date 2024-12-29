@@ -5,13 +5,13 @@ import { useState } from "react";
 
 
 
-export function AmountCal({waterAmount, coffeeAmount, measurement}){
+export function AmountCal({waterAmount, coffeeAmount, measurement, steps}){
 
     const [coffeeValue, setcoffeeValue] = useInputState<string | number>(coffeeAmount);
     const [waterValue, setwaterValue] = useInputState<string | number>(waterAmount);
 
     const [active, setActive] = useState(-1);
-    const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
+    const nextStep = () => setActive((current) => (current < steps.length ? current + 1 : current));
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
     const coffeeChange = ((coffee) =>{
@@ -25,6 +25,8 @@ export function AmountCal({waterAmount, coffeeAmount, measurement}){
         setwaterValue(water)
         setcoffeeValue(ratio*water)
     })
+
+    console.log(steps)
 
     return(
         <>
@@ -55,10 +57,15 @@ export function AmountCal({waterAmount, coffeeAmount, measurement}){
                 <Space h="md" />
 
             <Stepper active={active} onStepClick={setActive} orientation="vertical">
-                <Stepper.Step label="Rinse the filter" description="Use hot water to rinse the coffee filter" />
+                {steps.map((step, index) =>{
+                    return(
+                    <Stepper.Step label={step.title} description={step.step} />
+                    )
+                })}
+                {/* <Stepper.Step label="Rinse the filter" description="Use hot water to rinse the coffee filter" />
                 <Stepper.Step label="Bloom the coffee" description="Use 5th of the hot water to bloom the coffee for 45 seconds"/>
                 <Stepper.Step label="Add water" description="Add water after 15 seconds bloom" />
-                <Stepper.Step label="Add rest of the water" description="Every 20 seconds add 1/5 of the water" />
+                <Stepper.Step label="Add rest of the water" description="Every 20 seconds add 1/5 of the water" /> */}
 
             </Stepper>
             <Group justify="center" mt="xl">
