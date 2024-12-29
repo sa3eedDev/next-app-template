@@ -3,7 +3,7 @@ import {  Group, Title , Text, Container, NumberInput, Timeline} from "@mantine/
 
 
 interface Props {
-    params: { recipeid: string}
+    params: Promise<{ recipeid: string}>
 }
 
 interface Recipe{
@@ -25,7 +25,7 @@ interface step{
 export default async function Page({params}: Props) {
     // const params = use(props.params);
     const { recipeid } = await params;
-    const recipe : Recipe = await fetch(`http://localhost:3000/api/${recipeid}`).then((res) => res.json())
+    const recipe : Recipe = await fetch(`${process.env.APIURL}/api/${recipeid}`).then((res) => res.json())
 
     return(
         <>

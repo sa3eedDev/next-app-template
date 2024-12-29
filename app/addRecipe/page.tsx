@@ -1,5 +1,5 @@
 "use client";
-import { Button, Checkbox, Container, Fieldset, Grid, Group, NumberInput, Select, Space, Stack, TagsInput, Textarea, TextInput, Title } from "@mantine/core";
+import { Button, Container, Fieldset, Grid, NumberInput, Select, Space, Stack, TagsInput, Textarea, TextInput, Title } from "@mantine/core";
 import { useForm } from '@mantine/form';
 
 
@@ -24,7 +24,7 @@ export default function addRecipe(){
 
     const submitForm = (values) =>{
         console.log(values)
-        const data = fetch("http://localhost:3000/api/allrecipes", {
+        const data = fetch(process.env.APIURL+"/api/allrecipes", {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
