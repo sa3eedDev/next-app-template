@@ -1,5 +1,5 @@
 "use client";
-import { Button, Checkbox, Container, Grid, Group, NumberInput, Space, TagsInput, TextInput, Title } from "@mantine/core";
+import { Button, Checkbox, Container, Fieldset, Grid, Group, NumberInput, Select, Space, Stack, TagsInput, TextInput, Title } from "@mantine/core";
 import { useForm } from '@mantine/form';
 
 
@@ -14,7 +14,7 @@ export default function addRecipe(){
           coffeeAmount:"",
           measurement:"",
           prepTime:"",
-          steps:""
+          steps:[{title:"", step:""}]
         },
     
         validate: {
@@ -22,13 +22,24 @@ export default function addRecipe(){
         },
       });
 
-    let tags = []
+    const submitForm = (values) =>{
+        console.log(values)
+        const data = fetch("http://localhost:3000/api/allrecipes", {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values)
+          })
+    }
+
     return(
         <>
             <Container>
                 <Title order={1}>Add Recipe</Title>
                 <Space h="md"></Space>
-                <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                <form onSubmit={form.onSubmit((values) => submitForm(values))}>
                     <Grid>
                         <Grid.Col>
 
@@ -40,15 +51,24 @@ export default function addRecipe(){
                             {...form.getInputProps('title')}
                         />
                         </Grid.Col>
-                        <Grid.Col>
+                        <Grid.Col span={8}>
                         <TagsInput 
                             label="Tags" 
                             placeholder="Enter tag" 
                             key={form.key('tags')}
                             {...form.getInputProps("tags")}/>
                         </Grid.Col>
+                        <Grid.Col span={4}>
+                        <Select
+                        label="Measurement"
+                        placeholder="Grams"
+                        data={['Grams']}
+                        key={form.key('measurement')}
+                        {...form.getInputProps("measurement")}
+                        />
+                        </Grid.Col>
 
-                        <Grid.Col span={6}>
+                        <Grid.Col span={4}>
                         <NumberInput
                             label="Enter water amount"
                             description="Enter water amount for one serving"
@@ -57,7 +77,7 @@ export default function addRecipe(){
                             {...form.getInputProps("waterAmount")}
                             />
                         </Grid.Col>
-                        <Grid.Col span={6}>
+                        <Grid.Col span={4}>
                         <NumberInput
                             label="Enter coffee amount"
                             description="Enter coffee amount for one serving"
@@ -66,6 +86,30 @@ export default function addRecipe(){
                             {...form.getInputProps("coffeeAmount")}
                             />
                         </Grid.Col>
+                        <Grid.Col span={4}>
+                        <NumberInput
+                            label="Enter prepation time"
+                            description="Enter approxmitly how long it will take"
+                            placeholder="2.5"
+                            key={form.key('prepTime')}
+                            {...form.getInputProps("prepTime")}
+                            />
+                        </Grid.Col>
+
+                        <Grid.Col span={12}>
+                            <Stack>
+                                {form.getValues().steps.map((item, index) =>(
+                                    <Fieldset legend={`Step ${index+1}`}>
+                                        <TextInput label="Title" placeholder="Clean filter" key={form.key(`steps.${index}.title`)} {...form.getInputProps(`steps.${index}.title`)}/>
+                                        <TextInput label="Description" placeholder="Description" key={form.key(`steps.${index}.step`)} {...form.getInputProps(`steps.${index}.step`)}/>                                        
+                                    </Fieldset>
+                                ))}
+                                <Button type="button" onClick={() => form.insertListItem('steps', { title: '', step: "" })}>
+                                    Add Field
+                                </Button>
+                            </Stack>
+                        </Grid.Col>
+
                         <Grid.Col>
                             <Button 
                                 variant="gradient"

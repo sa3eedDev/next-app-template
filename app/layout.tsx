@@ -51,9 +51,9 @@ export default function RootLayout({ children }: { children: any }) {
             <ActionIcon
               component='a'
               href="/addRecipe"
-              variant="gradient"
               size="lg"
               aria-label="Gradient action icon"
+              variant="gradient"
               gradient={{ from: 'blue', to: 'cyan', deg: 261 }}
             >
               <IconLibraryPlus/>
